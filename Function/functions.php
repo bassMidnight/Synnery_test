@@ -16,7 +16,10 @@
             if (mysqli_connect_errno()) {
                 echo "Failed to connect to MySQL : " . mysqli_connect_error();
             }
+            return($this->dbcon);
         }
+
+        
 
         function addURL($short_URL, $full_URL)
         {
@@ -32,13 +35,25 @@
 
         function fetchShortURL($short_URL)
         {
-            $result = mysqli_query($this->dbcon, "SELECT * FROM tb_shorturl WHERE su_short = '$short_URL'");
+            $result = mysqli_query($this->dbcon, "SELECT su_full FROM tb_shorturl WHERE su_short = '$short_URL'");
             return $result;
         }
 
         function fetchAllURL()
         {
             $result = mysqli_query($this->dbcon, "SELECT * FROM tb_shorturl");
+            return $result;
+        }
+
+        function URLcounting($short_url)
+        {
+            $result = mysqli_query($this->dbcon, "SELECT su_clicked FROM tb_shorturl WHERE su_short = '$short_url'");
+            $resultcount = mysqli_fetch_assoc($result);
+            print_r($resultcount['su_clicked']);
+            $count = $resultcount['su_clicked'];
+            $count += 1;
+
+            $result = mysqli_query($this->dbcon, "UPDATE tb_shorturl SET su_clicked = $count WHERE su_short = '$short_url'");
             return $result;
         }
 
