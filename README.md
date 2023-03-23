@@ -1,5 +1,4 @@
-# JigsawGroups_test
- ใช้เพื่อทำแบบทดสอบฝึกงาน
+
 
  # Short URL Generator
 
@@ -40,4 +39,7 @@
 **library for generating QR Code** : [deltalab](https://sourceforge.net/projects/phpqrcode/)
 **Short URL Reference** : [Youtube CodingNepal](https://www.youtube.com/@CodingNepal)
 **QR Code Generator Reference** : [Youtube TechAreaIndia](https://www.youtube.com/@TechAreaIndia)
+
+# Synerry Corporation
+ ใช้เพื่อทำแบบทดสอบฝึกงาน
 
