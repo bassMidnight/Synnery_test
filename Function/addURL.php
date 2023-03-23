@@ -21,7 +21,7 @@
         $insert_sql = $insertData->addURL($ran_url, $full_URL);
         if ($insert_sql) {
             // --------------- Call QR Function ----------------- //
-            generate_QR($insertData, $qrcode, $ran_url, $qrimage);
+            generate_QR($domain, $insertData, $qrcode, $ran_url, $qrimage);
 
             echo "<script>alert('Generate short success.');</script>";
             goIndex();
@@ -41,9 +41,9 @@
         echo "<script>window.location.href='../'</script>";
     }
 
-    function generate_QR($insertData, $qrcode, $qrtext, $qrimage)
+    function generate_QR($domain, $insertData, $qrcode, $qrtext, $qrimage)
     {   
-        QRcode :: png('http://localhost/Short_URL/JigsawGroups_test/'.$qrtext, $qrcode, 'H', 4, 4);
+        QRcode :: png($domain.$qrtext, $qrcode, 'H', 4, 4);
         $insertQR_sql = $insertData->addQR($qrtext, $qrimage);
         if($insertQR_sql)
         {

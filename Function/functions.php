@@ -4,6 +4,8 @@
     define('DB_USER', 'root');
     define('DB_PASS', '');
     define('DB_NAME', 'db_shorturl');
+	
+	$domain = "http://localhost/Short_URL/JigsawGroups_test/";
     
     class DB_con {
 
@@ -41,7 +43,7 @@
 
         function fetchAllURL()
         {
-            $result = mysqli_query($this->dbcon, "SELECT * FROM tb_shorturl");
+            $result = mysqli_query($this->dbcon, "SELECT * FROM tb_shorturl ORDER BY su_id DESC");
             return $result;
         }
 
@@ -57,21 +59,33 @@
             return $result;
         }
 
-        function deleteShortURL_ID($id)
+        function deleteShortURL_ID($short)
         {
-            $result = mysqli_query($this->dbcon, "DELETE FROM tb_shorturl WHERE su_id = '$id'");
+            $result = mysqli_query($this->dbcon, "DELETE FROM tb_shorturl WHERE su_short = '$short'");
             return $result;
         }
 
         public function fetchAllQR()
         {
-            $result = mysqli_query($this->dbcon, "SELECT * FROM tb_qrcode");
+            $result = mysqli_query($this->dbcon, "SELECT * FROM tb_qrcode ORDER BY qr_id DESC");
             return $result;
         }
 
         public function addQR($qrtext, $qrimage)
         {
             $result = mysqli_query($this->dbcon, "INSERT INTO tb_qrcode(qr_text, qr_image) VALUES('$qrtext', '$qrimage')");
+            return $result;
+        }
+		
+		function deleteQR_ID($short)
+        {
+            $result = mysqli_query($this->dbcon, "DELETE FROM tb_qrcode WHERE qr_text = '$short'");
+            return $result;
+        }
+		
+		function fetchQRimage_short($short)
+        {
+            $result = mysqli_query($this->dbcon, "SELECT qr_image FROM tb_qrcode WHERE qr_text = '$short'");
             return $result;
         }
 

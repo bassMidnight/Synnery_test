@@ -1,16 +1,8 @@
 <?php 
     include('Function/functions.php');
     $fecthData = new DB_con;
-    $word = "deleteURL";
-    if(isset($_GET['/deleteURL_php'])){
-        header("Location:Function/deleteURL.php");
-    }
     if (isset($_GET) && !empty($_GET)) {
         foreach ($_GET as $key => $value) {
-            if(strpos($_GET[$key], $word)){
-                header("Location:Function/deleteURL.php");
-            }
-
             $u = $fecthData->dbcon->real_escape_string($key);
             $new_url = str_replace('/', '', $u);
         }
@@ -30,11 +22,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Short URL Gennerator </title>
     <style>
         .center {
             margin: auto;
-            width: 50%;
+            width: 70%;
             padding: 10px;
         }
 
@@ -48,8 +40,8 @@
         <div class="mb-3">
             <form action="Function/addURL.php" method="post">
                 <div class="mb-3 row"> 
-                    <label for="full_URL" class="form-label">ใส่ URL</label>
-                    <input type="text" name="full_URL" class="form-control">
+                    <label for="full_URL" class="form-label">ระบุ URL</label>
+                    <input type="text" name="full_URL" class="form-control" placeholder="ระบุ URL">
                 </div>
                 <div class="mb-3">
                     <input type="submit" value="สร้าง Short URL" class="btn btn-primary mb-3">
@@ -61,8 +53,7 @@
             <tr >
                 <th>short URL</th>
                 <th>full URL</th>
-                <th>clicked</th>
-                <th>QR Code</th>
+                <th>Detail</th>
             </tr>
             <?php
             $fecthURLtable = $fecthData->fetchAllURL();
@@ -70,7 +61,7 @@
             ?>
             <tr>
                 <td>
-                    <a href="http://localhost/Short_URL/JigsawGroups_test/<?= $data['su_short'] ?>" target="_blank">
+                    <a href="<?php echo $domain.$data['su_short'] ?>" target="_blank">
                     <?= $data['su_short'] ?>
                     </a>
                 </td>
@@ -83,10 +74,9 @@
                     }
                     ?>
                 </td>
-                <td><?= $data['su_clicked']?></td>
                 <td>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#QRModal<?= $data['su_id']?>">
-                        แสดง QR Code
+                        แสดงรายละเอียด
                     </button>
                 </td>
             </tr>
@@ -129,7 +119,7 @@
             </div>
             <div class="modal-body">
                 <img src="<?php echo 'images/'.$QR_data['qr_image']?>" alt="">
-                <p>ลิ้งค์ : <a href="<?php echo $QR_data['qr_text']?>" target="_blank"><?php echo $QR_data['qr_text']?></a></p>
+                <p>ลิ้งค์ : <a href="<?php echo $QR_data['qr_text']?>" target="_blank"><?php echo $domain.$QR_data['qr_text']?></a></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
