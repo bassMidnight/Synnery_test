@@ -1,9 +1,16 @@
 <?php 
     include('Function/functions.php');
     $fecthData = new DB_con;
-    
+    $word = "deleteURL";
+    if(isset($_GET['/deleteURL_php'])){
+        header("Location:Function/deleteURL.php");
+    }
     if (isset($_GET) && !empty($_GET)) {
         foreach ($_GET as $key => $value) {
+            if(strpos($_GET[$key], $word)){
+                header("Location:Function/deleteURL.php");
+            }
+
             $u = $fecthData->dbcon->real_escape_string($key);
             $new_url = str_replace('/', '', $u);
         }
@@ -55,6 +62,7 @@
                 <th>short URL</th>
                 <th>full URL</th>
                 <th>clicked</th>
+                <th>QR Code</th>
             </tr>
             <?php
             $fecthURLtable = $fecthData->fetchAllURL();
@@ -76,6 +84,11 @@
                     ?>
                 </td>
                 <td><?= $data['su_clicked']?></td>
+                <td>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#QRModal<?= $data['su_id']?>">
+                        แสดง QR Code
+                    </button>
+                </td>
             </tr>
             <?php } ?>
         </table>
@@ -101,6 +114,30 @@
             </div>
         </div>
     </div>
+
+    <?php
+    $fecthURLtable = $fecthData->fetchAllQR();
+    while ($QR_data = mysqli_fetch_array($fecthURLtable)) {
+    ?>
+    <!-- Modal -->
+    <div class="modal fade" id="QRModal<?= $QR_data['qr_id']?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">ข้อมูล QR Code</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="<?php echo 'images/'.$QR_data['qr_image']?>" alt="">
+                <p>ลิ้งค์ : <a href="<?php echo $QR_data['qr_text']?>" target="_blank"><?php echo $QR_data['qr_text']?></a></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <?php } ?>
 
     <script>
         function addminPage(){

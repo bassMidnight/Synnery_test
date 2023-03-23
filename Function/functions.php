@@ -57,6 +57,24 @@
             return $result;
         }
 
+        function deleteShortURL_ID($id)
+        {
+            $result = mysqli_query($this->dbcon, "DELETE FROM tb_shorturl WHERE su_id = '$id'");
+            return $result;
+        }
+
+        public function fetchAllQR()
+        {
+            $result = mysqli_query($this->dbcon, "SELECT * FROM tb_qrcode");
+            return $result;
+        }
+
+        public function addQR($qrtext, $qrimage)
+        {
+            $result = mysqli_query($this->dbcon, "INSERT INTO tb_qrcode(qr_text, qr_image) VALUES('$qrtext', '$qrimage')");
+            return $result;
+        }
+
     }
 
 ?>
