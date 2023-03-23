@@ -7,7 +7,6 @@
             $short = $_REQUEST[$key];
 			$deleteImage_sql = $fecthData->fetchQRimage_short($short);
 			$deleteImage_target = mysqli_fetch_assoc($deleteImage_sql);
-			echo $deleteImage_target['qr_image'];
 			unlink("images/".$deleteImage_target['qr_image']);
             $deleteURL_sql = $fecthData->deleteShortURL_ID($short);
 			$deleteQR_sql = $fecthData->deleteQR_ID($short);
